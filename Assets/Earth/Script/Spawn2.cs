@@ -11,7 +11,7 @@ public class Spawn2 : MonoBehaviour
     Spawn gSpawn;
     
     // ตัวแปรอ้างอิง Prefab ของอุปสรรคที่จะถูกสร้างขึ้น
-    public GameObject ObstaclePrefab;
+    public GameObject ObstaclePrefab , Coin;
 
     // ฟังก์ชันนี้จะถูกเรียกเมื่อเกมเริ่มต้นครั้งแรก
     void Start()
@@ -56,6 +56,16 @@ public class Spawn2 : MonoBehaviour
 
             // สร้างอุปสรรค (ObstaclePrefab) ในตำแหน่งที่สุ่มได้ พร้อมการหมุนเริ่มต้นที่ไม่หมุน (Quaternion.identity)
             Instantiate(ObstaclePrefab, spawnPoint.position, Quaternion.identity, transform);
+        }
+        
+        float chanceToSpawnCoin = UnityEngine.Random.Range(0f, 1f);
+        if (chanceToSpawnCoin < 0.5f)
+        {
+            // สุ่มตำแหน่งอื่นเพื่อสร้างเหรียญ
+            int coinSpawnIndex = UnityEngine.Random.Range(2, 5);
+            Transform coinSpawnPoint = transform.GetChild(coinSpawnIndex).transform;
+
+            Instantiate(Coin, coinSpawnPoint.position, Quaternion.identity, transform);
         }
     }
 }
