@@ -12,6 +12,8 @@ public class Spawn2 : MonoBehaviour
     
     // ตัวแปรอ้างอิง Prefab ของอุปสรรคที่จะถูกสร้างขึ้น
     public GameObject ObstaclePrefab , Coin;
+    
+    
 
     // ฟังก์ชันนี้จะถูกเรียกเมื่อเกมเริ่มต้นครั้งแรก
     void Start()
@@ -34,10 +36,7 @@ public class Spawn2 : MonoBehaviour
     }
 
     // ฟังก์ชันนี้จะถูกเรียกทุกเฟรมของเกม แต่ในที่นี้ไม่ได้ใช้งาน
-    void Update()
-    {
-        
-    }
+    
 
     // ฟังก์ชันสำหรับการสุ่มตำแหน่งและสร้างอุปสรรค
     void SpawnObstacle()
@@ -68,4 +67,7 @@ public class Spawn2 : MonoBehaviour
             Instantiate(Coin, coinSpawnPoint.position, Quaternion.identity, transform);
         }
     }
+
+    
+    
 }
