@@ -21,11 +21,14 @@ public class Coin : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.name == "Player")
+        // ตรวจสอบว่าเป็น Player หรือไม่
+        if (other.CompareTag("Player"))
         {
-            return;
+            // ลบวัตถุ Coin ออกจาก Scene
+            Destroy(gameObject);
+
+            // สามารถเพิ่มโค้ดสำหรับเพิ่มคะแนนให้ผู้เล่นได้ที่นี่
+            // เช่น GameManager.Instance.AddScore(1);
         }
-        
-        Destroy(gameObject);
     }
 }
