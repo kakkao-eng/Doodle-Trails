@@ -1576,8 +1576,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1704135096}
-  jumpHight: 0
-  moveHorizon: 35
+  jumpHight: 300
+  moveHorizon: 120
 --- !u!1 &1898219349
 GameObject:
   m_ObjectHideFlags: 0
