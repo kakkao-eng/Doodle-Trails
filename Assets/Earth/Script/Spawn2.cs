@@ -45,7 +45,7 @@ public class Spawn2 : MonoBehaviour
         float chanceToSpawn = UnityEngine.Random.Range(0f, 1f);  // สุ่มค่าเป็นตัวเลขระหว่าง 0 ถึง 1
 
         // กำหนดโอกาสที่จะสร้างอุปสรรค (ในที่นี้ให้สร้างเมื่อสุ่มได้ค่าต่ำกว่า 0.5)
-        if (chanceToSpawn < 0.5f)
+        if (chanceToSpawn < 0.3f)
         {
             // สุ่มตัวเลขเพื่อเลือกตำแหน่งที่อุปสรรคจะถูกสร้างขึ้น (ในที่นี้จะสุ่มเลข 2 ถึง 4)
             int obstacleSpawnIndex = UnityEngine.Random.Range(2, 5);
@@ -58,7 +58,7 @@ public class Spawn2 : MonoBehaviour
         }
         
         float chanceToSpawnCoin = UnityEngine.Random.Range(0f, 1f);
-        if (chanceToSpawnCoin < 0.5f)
+        if (chanceToSpawnCoin < 0.2f)
         {
             // สุ่มตำแหน่งอื่นเพื่อสร้างเหรียญ
             int coinSpawnIndex = UnityEngine.Random.Range(2, 5);
