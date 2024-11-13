@@ -11,6 +11,7 @@ public class Score : MonoBehaviour
     public float accumulatedScore = 0; // คะแนนสะสมที่ใช้คำนวณจริง
     public int ScoreRate = 1;          // อัตราการเพิ่มคะแนน
     public bool isScore = true;
+    public GameObject ScoreEnd;
 
     // Update is called once per frame
     void Update()
@@ -19,14 +20,20 @@ public class Score : MonoBehaviour
         {
             // คำนวณคะแนนสะสมจากเวลา
             accumulatedScore += ScoreRate * (Time.deltaTime * 10);
-
+            
             // ปัดเศษลงเพื่อเพิ่มค่าใน ScoreCount
             ScoreCount = Mathf.FloorToInt(accumulatedScore);
 
             // อัปเดต UI ของคะแนน
             ScoreDisplay.GetComponent<TMP_Text>().text = "" + ScoreCount;
+            ScoreEnd.GetComponent<TMP_Text>().text = "" + ScoreCount;
         }
     }
 
+    public void StopCount()
+    {
+        isScore = false;
+        
+    }
 
 }

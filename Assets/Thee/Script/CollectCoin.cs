@@ -8,10 +8,11 @@ public class CollectCoin : MonoBehaviour
 {
     public static int coinCount;
     public GameObject coinCountDisplay;
-
+    public GameObject coinCountEnd;
     // Update is called once per frame
     void Update()
     {
         coinCountDisplay.GetComponent<TMP_Text>().text = "" + coinCount;
+        coinCountEnd.GetComponent<TMP_Text>().text = "" + coinCount;
     }
 }

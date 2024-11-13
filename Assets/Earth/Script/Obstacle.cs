@@ -7,10 +7,11 @@ using UnityEngine.SocialPlatforms.Impl;
 public class Obstacle : MonoBehaviour
 {
     public Test player;
-    //public Score score;
+    public Score score;
     public GameObject endScreen;
     public GameObject ScoreCount;
-    //private Test playerMovement;
+    public GameObject UIcontorl;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,9 +26,10 @@ public class Obstacle : MonoBehaviour
             Debug.Log("Player hit the obstacle!");
 
             player.StopMove();
-            //score.StopCount();
+            score.StopCount();
             endScreen.SetActive(true);
             ScoreCount.SetActive(false);
+            UIcontorl.SetActive(false);
         }
 
 
