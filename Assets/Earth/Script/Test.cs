@@ -14,13 +14,21 @@ public class Test : MonoBehaviour
     float horizontalInput;
     public float horizontalMultiplier;
 
+    private bool isMoving = true;
+
+
     public void FixedUpdate()
     {
         if (!alive) return;
-        
-        Vector3 forwardMove = transform.forward * speed * Time.fixedDeltaTime;
-        Vector3 horizontalMove = transform.right * horizontalInput * speed * Time.fixedDeltaTime * horizontalMultiplier;
-        rb.MovePosition(rb.position + forwardMove + horizontalMove);
+
+        if (isMoving)
+        {
+            
+
+            Vector3 forwardMove = transform.forward * speed * Time.fixedDeltaTime;
+            Vector3 horizontalMove = transform.right * horizontalInput * speed * Time.fixedDeltaTime * horizontalMultiplier;
+            rb.MovePosition(rb.position + forwardMove + horizontalMove);
+        }
     }
     
 
@@ -40,7 +48,12 @@ public class Test : MonoBehaviour
     {
         alive = false;
         //Restart game
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void StopMove()
+    {
+        isMoving = false;
     }
    
 }
