@@ -456,6 +456,12 @@ MonoBehaviour:
   ScoreRate: 1
   isScore: 1
   ScoreEnd: {fileID: 1569029115}
+--- !u!1 &463568064 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5895281447229163658, guid: 34d543c6b1ca84641865e6ec07757c8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 654090208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &593988764
 GameObject:
   m_ObjectHideFlags: 0
@@ -2707,6 +2713,7 @@ GameObject:
   - component: {fileID: 1704135103}
   - component: {fileID: 1704135102}
   - component: {fileID: 1704135104}
+  - component: {fileID: 1704135105}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2908,6 +2915,20 @@ MonoBehaviour:
   endScreen: {fileID: 1344091636}
   ScoreCount: {fileID: 593988764}
   UIcontorl: {fileID: 1143148608}
+--- !u!114 &1704135105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704135095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c319ebdf1b191094a869cf803749257a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultSkin1: {fileID: 1926914445}
+  defaultSkin2: {fileID: 463568064}
 --- !u!1 &1898219349
 GameObject:
   m_ObjectHideFlags: 0
@@ -3131,6 +3152,12 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1926914445 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4589698521181707450, guid: 34d543c6b1ca84641865e6ec07757c8c,
+    type: 3}
+  m_PrefabInstance: {fileID: 654090208}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1977218584
 GameObject:
   m_ObjectHideFlags: 0
