@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.UI;
+
 
 public class Coin : MonoBehaviour
 {
     
     public float turmSpeed =90;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +19,8 @@ public class Coin : MonoBehaviour
     void Update()
     {
         transform.Rotate(turmSpeed * Time.deltaTime,0,0 );
+        
+        
     }
     
     
@@ -28,6 +33,7 @@ public class Coin : MonoBehaviour
             Destroy(gameObject);
 
             // สามารถเพิ่มโค้ดสำหรับเพิ่มคะแนนให้ผู้เล่นได้ที่นี่
+            CollectCoin.coinCount += 1;
             // เช่น GameManager.Instance.AddScore(1);
         }
     }
