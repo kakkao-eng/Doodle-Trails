@@ -18,19 +18,21 @@ public class moveButton : MonoBehaviour
       
       PlayerInput = GetComponent<PlayerInput>();
         Rigidbody player = GetComponent<Rigidbody>();
+        groundedPlayer = true;
         
 
     }
+   
     private void Update()
     {
-        
-        
-        if (PlayerInput.actions["Jump"].triggered )
-        { 
-           player.AddForce(transform.up * jumpHight) ;
-        Debug.Log("JUMP");
+        if (PlayerInput.actions["Jump"].triggered && groundedPlayer == true)
+        {
+            player.AddForce(transform.up * jumpHight);
+            Debug.Log("JUMP");
 
         }
+        
+        
         if (PlayerInput.actions["Left"].triggered && player.position.x >= -2 )
         {
             if(player.position.x >= 3 && player.position.x != 0)
@@ -54,6 +56,22 @@ public class moveButton : MonoBehaviour
         }
        
 
+
+    }
+    private void OnTriggerStay(Collider collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            groundedPlayer = true;
+        }
+
+    }
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            groundedPlayer = false;
+        }
 
     }
 }
