@@ -35,7 +35,7 @@ public class Test : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        horizontalInput = Input.GetAxis("Horizontal");
+      //  horizontalInput = Input.GetAxis("Horizontal");
 
         if (transform.position.y < -5)
         {

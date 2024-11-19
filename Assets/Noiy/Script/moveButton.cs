@@ -10,7 +10,7 @@ public class moveButton : MonoBehaviour
     [SerializeField] int moveHorizon;
 
     private PlayerInput PlayerInput;
-    private bool groundedPlayer;
+    public bool groundedPlayer;
     
 
     private void Start()
@@ -18,10 +18,14 @@ public class moveButton : MonoBehaviour
       
       PlayerInput = GetComponent<PlayerInput>();
         Rigidbody player = GetComponent<Rigidbody>();
+        
+
     }
     private void Update()
     {
-        if (PlayerInput.actions["Jump"].triggered)
+        
+        
+        if (PlayerInput.actions["Jump"].triggered )
         { 
            player.AddForce(transform.up * jumpHight) ;
         Debug.Log("JUMP");
@@ -29,12 +33,24 @@ public class moveButton : MonoBehaviour
         }
         if (PlayerInput.actions["Left"].triggered && player.position.x >= -2 )
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x - moveHorizon, transform.position.y, transform.position.z), Time.deltaTime*5);
+            if(player.position.x >= 3 && player.position.x != 0)
+            {
+                transform.position = new Vector3(0.0f, transform.position.y, transform.position.z);
+            }   
+            else { transform.position = new Vector3(-3.5f, transform.position.y, transform.position.z);}
+            
         }
 
         if (PlayerInput.actions["Right"].triggered && player.position.x <=2)
-        { 
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x + moveHorizon, transform.position.y, transform.position.z), Time.deltaTime*5);
+        {
+            if (player.position.x <= -3 && player.position.x != 0)
+            {
+                transform.position = new Vector3(0.0f, transform.position.y, transform.position.z);
+            }
+            else
+            { transform.position = new Vector3(3.5f, transform.position.y, transform.position.z); }
+            
+           
         }
        
 
