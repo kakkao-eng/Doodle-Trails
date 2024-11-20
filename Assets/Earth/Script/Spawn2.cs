@@ -7,67 +7,71 @@ using Random = Unity.Mathematics.Random; // การใช้งานการ
 
 public class Spawn2 : MonoBehaviour
 {
-    // ตัวแปรที่จะใช้ในการอ้างอิงถึงคลาส Spawn อื่นที่จัดการการเกิดของพื้นที่
     Spawn gSpawn;
-    
-    // ตัวแปรอ้างอิง Prefab ของอุปสรรคที่จะถูกสร้างขึ้น
-    public GameObject ObstaclePrefab , Coin;
-    
-    
+    public GameObject ObstaclePrefab, Coin;
 
-    // ฟังก์ชันนี้จะถูกเรียกเมื่อเกมเริ่มต้นครั้งแรก
+    // ตัวแปรสำหรับโอกาสและการเพิ่มโอกาส
+    private float obstacleSpawnChance = 0.4f; // โอกาสเริ่มต้น
+    private float coinSpawnChance = 0.4f;     // โอกาสเหรียญเริ่มต้น
+    private float increaseRate = 0.2f;       // อัตราการเพิ่มโอกาส
+    private float maxChance = 0.8f;           // โอกาสสูงสุดที่อุปสรรคสามารถเกิดได้
+
+    // ตัวแปรสำหรับความเร็วการสปาวน์
+    private float spawnInterval = 60.0f;       // เวลาเริ่มต้น (วินาที) ระหว่างการสปาวน์
+    private float minSpawnInterval = 0.5f;    // ความเร็วสูงสุดที่อนุญาต
+    private float spawnSpeedIncreaseRate = 0.1f; // อัตราการเพิ่มความเร็ว
+
     void Start()
     {
-        // ค้นหาออบเจ็กต์ในฉากที่เป็นชนิด Spawn และเก็บไว้ใน gSpawn
+        Debug.Log("Start called");
         gSpawn = GameObject.FindObjectOfType<Spawn>();
-        
-        // เรียกฟังก์ชัน SpawnObstacle() เพื่อสร้างอุปสรรคในตำแหน่งที่กำหนด
         SpawnObstacle();
+
+        InvokeRepeating(nameof(IncreaseSpawnChance), spawnInterval, spawnInterval); 
     }
 
-    // ฟังก์ชันนี้จะถูกเรียกเมื่อมีออบเจ็กต์ชนหรือผ่านการ Trigger
     private void OnTriggerExit(Collider other)
     {
-        // เรียกใช้ฟังก์ชัน SpawnTile() จากคลาส gSpawn เพื่อสร้างพื้นใหม่
         gSpawn.SpawnTile();
-        
-        // ทำลายวัตถุนี้หลังจากผ่านไป 2 วินาที
         Destroy(gameObject, 2);
     }
 
-    // ฟังก์ชันนี้จะถูกเรียกทุกเฟรมของเกม แต่ในที่นี้ไม่ได้ใช้งาน
-    
-
-    // ฟังก์ชันสำหรับการสุ่มตำแหน่งและสร้างอุปสรรค
     void SpawnObstacle()
     {
-        // เพิ่มตัวแปรเพื่อกำหนดโอกาสในการสร้างอุปสรรค
-        float chanceToSpawn = UnityEngine.Random.Range(0f, 1f);  // สุ่มค่าเป็นตัวเลขระหว่าง 0 ถึง 1
+        float chanceToSpawn = UnityEngine.Random.Range(0f, 1f);
 
-        // กำหนดโอกาสที่จะสร้างอุปสรรค (ในที่นี้ให้สร้างเมื่อสุ่มได้ค่าต่ำกว่า 0.5)
-        if (chanceToSpawn < 0.3f)
+        if (chanceToSpawn < obstacleSpawnChance)
         {
-            // สุ่มตัวเลขเพื่อเลือกตำแหน่งที่อุปสรรคจะถูกสร้างขึ้น (ในที่นี้จะสุ่มเลข 2 ถึง 4)
             int obstacleSpawnIndex = UnityEngine.Random.Range(2, 5);
-
-            // หา Transform ของตำแหน่งที่ถูกสุ่มในลูกของวัตถุปัจจุบัน
             Transform spawnPoint = transform.GetChild(obstacleSpawnIndex).transform;
-
-            // สร้างอุปสรรค (ObstaclePrefab) ในตำแหน่งที่สุ่มได้ พร้อมการหมุนเริ่มต้นที่ไม่หมุน (Quaternion.identity)
             Instantiate(ObstaclePrefab, spawnPoint.position, Quaternion.identity, transform);
         }
-        
+
         float chanceToSpawnCoin = UnityEngine.Random.Range(0f, 1f);
-        if (chanceToSpawnCoin < 0.2f)
+        if (chanceToSpawnCoin < coinSpawnChance)
         {
-            // สุ่มตำแหน่งอื่นเพื่อสร้างเหรียญ
             int coinSpawnIndex = UnityEngine.Random.Range(2, 5);
             Transform coinSpawnPoint = transform.GetChild(coinSpawnIndex).transform;
-
             Instantiate(Coin, coinSpawnPoint.position, Quaternion.identity, transform);
         }
     }
 
-    
-    
+    // ฟังก์ชันสำหรับเพิ่มโอกาสและลดเวลาในการสปาวน์
+    private int spawnCallCount = 0;
+
+    void IncreaseSpawnChance()
+    {
+        spawnCallCount++;
+        obstacleSpawnChance = Mathf.Min(obstacleSpawnChance + increaseRate, maxChance);
+        Debug.Log(obstacleSpawnChance);
+
+        // เพิ่มความเร็วการสปาวน์
+        if (spawnInterval > minSpawnInterval)
+        {
+            spawnInterval = Mathf.Max(spawnInterval - spawnSpeedIncreaseRate, minSpawnInterval);
+            CancelInvoke(nameof(IncreaseSpawnChance)); // ยกเลิกการเรียกซ้ำที่มีอยู่
+            InvokeRepeating(nameof(IncreaseSpawnChance), spawnInterval, spawnInterval); // ตั้งค่าความเร็วใหม่
+        }
+    }
 }
+
