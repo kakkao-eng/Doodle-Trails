@@ -145,4 +145,68 @@ public class FirebaseRankingManager : MonoBehaviour
         });
         
     }
+    
+    public void UpdateScoreIfHigher()
+    {
+        string urlData = $"{url}/ranking/playerDatas.json?auth={secret}";
+
+        RestClient.Get(urlData).Then(response =>
+        {
+            JSONNode jsonNode = JSONNode.Parse(response.Text);
+            ranking = new Ranking();
+            ranking.playerDatas = new List<PlayerData>();
+
+            for (int i = 0; i < jsonNode.Count; i++)
+            {
+                ranking.playerDatas.Add(new PlayerData(
+                    jsonNode[i]["rankNumber"],
+                    jsonNode[i]["playerName"],
+                    jsonNode[i]["playerScore"],
+                    null));
+            }
+
+            // ค้นหาผู้เล่นในฐานข้อมูล Firebase
+            PlayerData currentData = ranking.playerDatas.FirstOrDefault(
+                data => data.playerName == currentPlayerData.playerName);
+
+            if (currentData.playerName != null)
+            {
+                // ถ้าคะแนนใหม่มากกว่าคะแนนเดิม
+                if (Score.ScoreCount > currentData.playerScore)
+                {
+                    currentData.playerScore = Score.ScoreCount; // อัปเดตคะแนน
+                    int index = ranking.playerDatas.IndexOf(currentData);
+                    ranking.playerDatas[index] = currentData; // เปลี่ยนคะแนนใน list
+                    Debug.Log("Updated score for player: " + currentData.playerName);
+                }
+                else
+                {
+                    Debug.Log("New score is not higher, no update needed.");
+                }
+            }
+            else
+            {
+                // ถ้าผู้เล่นไม่มีใน Firebase ให้เพิ่มข้อมูลใหม่
+                currentPlayerData.playerScore = Score.ScoreCount;
+                ranking.playerDatas.Add(currentPlayerData);
+                Debug.Log("Added new player: " + currentPlayerData.playerName);
+            }
+
+            // อัปเดตข้อมูลกลับไปยัง Firebase
+            string urlPlayerData = $"{url}/ranking/.json?auth={secret}";
+            RestClient.Put<Ranking>(urlPlayerData, ranking).Then(response =>
+            {
+                Debug.Log("Upload data complete.");
+                rankUIManager.playerDatas = ranking.playerDatas;
+                rankUIManager.ReloadRankData();
+                FindYourDataInRanking(); // อัปเดต UI
+            }).Catch(error =>
+            {
+                Debug.LogError("Failed to upload data: " + error);
+            });
+        }).Catch(error =>
+        {
+            Debug.LogError("Failed to fetch data: " + error);
+        });
+    }
 }
