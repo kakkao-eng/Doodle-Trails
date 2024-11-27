@@ -44,7 +44,10 @@ public class Obstacle : MonoBehaviour
         if (other.CompareTag("obstacle"))
         {
             Debug.Log("Player hit the obstacle!");
+            Handheld.Vibrate();
 
+            // ส่งข้อความดีบัคเพื่อแจ้งว่าได้สั่นแล้ว
+            Debug.Log("Vibration triggered");
             // หยุดเพลงพื้นหลัง
             if (musicController != null)
             {
