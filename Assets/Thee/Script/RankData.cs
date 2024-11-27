@@ -11,7 +11,17 @@ public struct PlayerData
     public Sprite profileSprite;
     public int rankNumber;
     public int playerScore;
+
+
+    public PlayerData(int rankNumber, string playerName, int playerScore, Sprite profileSprite)
+    {
+        this.playerName = playerName;
+        this.rankNumber = rankNumber;
+        this.playerScore = playerScore;
+        this.profileSprite = profileSprite;
+    }
 }
+
 
 public class RankData : MonoBehaviour
 {
