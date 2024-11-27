@@ -8,13 +8,13 @@ public class MenuController : MonoBehaviour
 {
     public void LoadScene(string GamePlay)
     {
-        //GameManager.Instance.ResetCurrentCoins();
         SceneManager.LoadScene(GamePlay);
-
+        GameManager.Instance.ResetCurrentCoins();
     }
 
     public void RestartScene()
     {
+        GameManager.Instance.ResetCurrentCoins();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

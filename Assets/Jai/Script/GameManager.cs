@@ -17,10 +17,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            gameObject.SetActive(false);
-        }
     }
 
     public void AddCoin(int amount)

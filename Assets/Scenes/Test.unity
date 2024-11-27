@@ -1263,7 +1263,7 @@ Transform:
   m_GameObject: {fileID: 922498465}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.34, y: -0.77575624, z: 0}
+  m_LocalPosition: {x: 5.3, y: -0.77575624, z: 0}
   m_LocalScale: {x: 1, y: 3.6363637, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1936,7 +1936,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Test
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1215404411
@@ -3089,7 +3089,7 @@ Transform:
   m_GameObject: {fileID: 1704135095}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.064, z: 0}
+  m_LocalPosition: {x: 0, y: 1.08, z: 0}
   m_LocalScale: {x: -0.1, y: 0.0825, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
