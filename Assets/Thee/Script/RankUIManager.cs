@@ -10,6 +10,7 @@ public class RankUIManager : MonoBehaviour
 
     public List<GameObject> createdPlayerDatas = new List<GameObject>();
     public List<PlayerData> playerDatas = new List<PlayerData>();
+    public RankData youRankData;
 
     // Start is called before the first frame update
     void Start()
