@@ -8,7 +8,8 @@ using Random = Unity.Mathematics.Random; // การใช้งานการ
 public class Spawn2 : MonoBehaviour
 {
     Spawn gSpawn;
-    public GameObject ObstaclePrefab, Coin;
+    public GameObject[] ObstaclePrefabs;
+    public GameObject Coin;
 
     // ตัวแปรสำหรับโอกาสและการเพิ่มโอกาส
     private float obstacleSpawnChance = 0.4f; // โอกาสเริ่มต้น
@@ -42,16 +43,25 @@ public class Spawn2 : MonoBehaviour
 
         if (chanceToSpawn < obstacleSpawnChance)
         {
+            // Randomly select one obstacle prefab from the array
+            int randomObstacleIndex = UnityEngine.Random.Range(0, ObstaclePrefabs.Length);
+
+            // Randomly select a spawn point between child 2 and 4
             int obstacleSpawnIndex = UnityEngine.Random.Range(2, 5);
             Transform spawnPoint = transform.GetChild(obstacleSpawnIndex).transform;
-            Instantiate(ObstaclePrefab, spawnPoint.position, Quaternion.identity, transform);
+
+            // Instantiate the selected obstacle prefab
+            Instantiate(ObstaclePrefabs[randomObstacleIndex], spawnPoint.position, Quaternion.identity, transform);
         }
 
         float chanceToSpawnCoin = UnityEngine.Random.Range(0f, 1f);
         if (chanceToSpawnCoin < coinSpawnChance)
         {
+            // Randomly select a spawn point for the coin
             int coinSpawnIndex = UnityEngine.Random.Range(2, 5);
             Transform coinSpawnPoint = transform.GetChild(coinSpawnIndex).transform;
+
+            // Instantiate the coin prefab
             Instantiate(Coin, coinSpawnPoint.position, Quaternion.identity, transform);
         }
     }

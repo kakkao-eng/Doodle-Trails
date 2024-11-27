@@ -71,8 +71,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26cec606fbdee604ba143430c28f20eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstaclePrefab: {fileID: 7261411483129710316, guid: 54816acd5e0dde448a71c962e40b5126,
-    type: 3}
+  ObstaclePrefabs:
+  - {fileID: 7261411483129710316, guid: 54816acd5e0dde448a71c962e40b5126, type: 3}
+  - {fileID: 7261411483129710316, guid: 4e160a7271a554c47ab7a014834ff6c3, type: 3}
+  - {fileID: 7261411483129710316, guid: d6aa0548b56226c438b07d7989523251, type: 3}
+  - {fileID: 7261411483129710316, guid: 8d948ae9a9e9dad40ba662b2ff8bbaa7, type: 3}
   Coin: {fileID: 2779279507876620015, guid: 8e7f6084fde53b643ad28e82b99c34b7, type: 3}
 --- !u!1 &398439636452953573
 GameObject:
