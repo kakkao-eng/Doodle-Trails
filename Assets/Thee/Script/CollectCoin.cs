@@ -6,13 +6,20 @@ using TMPro;
 
 public class CollectCoin : MonoBehaviour
 {
-    public static int coinCount;
-    public GameObject coinCountDisplay;
-    public GameObject coinCountEnd;
-    // Update is called once per frame
+    public TMP_Text coinDisplayInGame; 
+    public TMP_Text coinDisplayAtEnd; 
+
     void Update()
     {
-        coinCountDisplay.GetComponent<TMP_Text>().text = "" + coinCount;
-        coinCountEnd.GetComponent<TMP_Text>().text = "" + coinCount;
+        UpdateCoinDisplay();
+    }
+
+    public void UpdateCoinDisplay()
+    {
+        if (coinDisplayInGame != null)
+            coinDisplayInGame.text = GameManager.currentCoins.ToString();
+
+        if (coinDisplayAtEnd != null)
+            coinDisplayAtEnd.text = GameManager.Instance.totalCoins.ToString();
     }
 }

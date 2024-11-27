@@ -7,7 +7,7 @@ using TMPro;
 public class Score : MonoBehaviour
 {
     public GameObject ScoreDisplay;
-    public int ScoreCount = 0;         // คะแนนที่แสดงผล
+    public static int ScoreCount = 0;   // คะแนนที่แสดงผล
     public float accumulatedScore = 0; // คะแนนสะสมที่ใช้คำนวณจริง
     public int ScoreRate = 1;          // อัตราการเพิ่มคะแนน
     public bool isScore = true;
@@ -20,7 +20,7 @@ public class Score : MonoBehaviour
         {
             // คำนวณคะแนนสะสมจากเวลา
             accumulatedScore += ScoreRate * (Time.deltaTime * 10);
-            
+
             // ปัดเศษลงเพื่อเพิ่มค่าใน ScoreCount
             ScoreCount = Mathf.FloorToInt(accumulatedScore);
 
@@ -33,7 +33,6 @@ public class Score : MonoBehaviour
     public void StopCount()
     {
         isScore = false;
-        
     }
 
 }
