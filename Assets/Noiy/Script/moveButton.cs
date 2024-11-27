@@ -10,9 +10,9 @@ public class moveButton : MonoBehaviour
     [SerializeField] int moveHorizon;
 
     private PlayerInput PlayerInput;
-    public bool groundedPlayer;
-    
+    public  bool groundedPlayer;
 
+    public Animator anim;
     private void Start()
     {
       
@@ -29,6 +29,7 @@ public class moveButton : MonoBehaviour
         {
             player.AddForce(transform.up * jumpHight);
             Debug.Log("JUMP");
+            
 
         }
         
@@ -63,6 +64,9 @@ public class moveButton : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             groundedPlayer = true;
+           
+                anim.SetBool("isJumping", false);
+
         }
 
     }
@@ -71,7 +75,9 @@ public class moveButton : MonoBehaviour
         if (collision.gameObject.tag == "Floor")
         {
             groundedPlayer = false;
+            anim.SetBool("isJumping", true);
         }
 
     }
+    
 }
