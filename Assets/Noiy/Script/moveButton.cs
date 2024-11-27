@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,10 +13,12 @@ public class moveButton : MonoBehaviour
     public  bool groundedPlayer;
 
     public Animator anim;
+    public AudioClip pickupSound; // ลากไฟล์เสียงจาก Inspector
+    private AudioSource audioSource; // ตัวเล่นเสียง
     private void Start()
     {
-      
-      PlayerInput = GetComponent<PlayerInput>();
+        audioSource = GetComponent<AudioSource>();
+        PlayerInput = GetComponent<PlayerInput>();
         Rigidbody player = GetComponent<Rigidbody>();
         groundedPlayer = true;
         
@@ -27,6 +29,10 @@ public class moveButton : MonoBehaviour
     {
         if (PlayerInput.actions["Jump"].triggered && groundedPlayer == true)
         {
+            if (pickupSound != null)
+            {
+                audioSource.PlayOneShot(pickupSound);
+            }
             player.AddForce(transform.up * jumpHight);
             Debug.Log("JUMP");
             

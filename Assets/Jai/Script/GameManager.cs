@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public void AddCoin(int amount)
     {
         currentCoins += amount; // เพิ่มเหรียญในซีนปัจจุบัน
+
         totalCoins += amount;   // เพิ่มเหรียญรวมทั้งหมด
         Debug.Log($"Coin added! Current Coins: {currentCoins}, Total Coins: {totalCoins}");
     }

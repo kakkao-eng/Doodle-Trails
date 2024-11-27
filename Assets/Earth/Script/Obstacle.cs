@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class Obstacle : MonoBehaviour
@@ -13,9 +14,13 @@ public class Obstacle : MonoBehaviour
     public GameObject ScoreCount;          // UI แสดงคะแนนขณะเล่น
     public GameObject UIControl;           // UI ควบคุมอื่นๆ
     public BackgroundMusicController musicController; // ควบคุมเพลงพื้นหลัง
+    public AudioClip pickupSound; // ลากไฟล์เสียงจาก Inspector
+    private AudioSource audioSource; // ตัวเล่นเสียง
+
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         // หากไม่ได้ตั้งค่าตัวแปรใน Inspector อาจค้นหา GameObject อัตโนมัติ
         if (player == null)
         {
@@ -45,7 +50,10 @@ public class Obstacle : MonoBehaviour
             {
                 musicController.StopMusic();
             }
-
+            if (pickupSound != null)
+            {
+                audioSource.PlayOneShot(pickupSound);
+            }
             // หยุดการเคลื่อนที่และการเพิ่มคะแนน
             if (player != null)
             {
@@ -60,6 +68,7 @@ public class Obstacle : MonoBehaviour
             // แสดงจอเกมจบและซ่อน UI
             if (endScreen != null)
             {
+                
                 endScreen.SetActive(true);
             }
 

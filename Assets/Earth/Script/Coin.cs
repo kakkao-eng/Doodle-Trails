@@ -6,6 +6,13 @@ using UnityEditor.UI;
 
 public class Coin : MonoBehaviour
 {
+    public AudioClip pickupSound; // ลากไฟล์เสียงจาก Inspector
+    private AudioSource audioSource; // ตัวเล่นเสียง
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public float turnSpeed = 90f; // ความเร็วในการหมุน
 
@@ -19,6 +26,10 @@ public class Coin : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if (pickupSound != null)
+            {
+                AudioSource.PlayClipAtPoint(pickupSound, transform.position); // เล่นเสียงที่ตำแหน่งเหรียญ
+            }
             // แจ้ง GameManager ว่าผู้เล่นเก็บเหรียญ
             GameManager.Instance.AddCoin(1);
 
