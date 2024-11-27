@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
+
 public class MenuController : MonoBehaviour
 {
     public void LoadScene(string GamePlay)
@@ -22,4 +23,6 @@ public class MenuController : MonoBehaviour
     {
         Application.Quit();
     }
+
+    
 }
