@@ -14,8 +14,8 @@ public struct Ranking
 
 public class FirebaseRankingManager : MonoBehaviour
 {
-    public const string url = "https://doodle-trails-default-rtdb.asia-southeast1.firebasedatabase.app";
-    public const string secret = "NrMEVArfQw9PvLiyK5r4Ko7pWMSADUwbdWAbeTby";
+    public const string url = "https://abcd-b6c96-default-rtdb.asia-southeast1.firebasedatabase.app";
+    public const string secret = "U4Tkuo2UAAHAPN4WYDwwsXg4DKCPkT0lipf2duWq";
     
     
     [Header("Main")]
@@ -24,6 +24,22 @@ public class FirebaseRankingManager : MonoBehaviour
     [Header("New Data")]
     public PlayerData currentPlayerData;
     private List<PlayerData> sortPlayerDatas = new List<PlayerData>();
+    
+    
+    public static FirebaseRankingManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // เพื่อให้ object นี้ไม่หายไปเมื่อโหลด scene ใหม่
+        }
+        else
+        {
+            Destroy(gameObject); // ทำลาย object นี้ถ้ามี instance อยู่แล้ว
+        }
+    }
     
     
     private void CalculateRankFromScore()
@@ -146,67 +162,68 @@ public class FirebaseRankingManager : MonoBehaviour
         
     }
     
-    public void UpdateScoreIfHigher()
+public void UpdateScoreIfHigher()
+{
+    string urlData = $"{url}/ranking/playerDatas.json?auth={secret}";
+
+    RestClient.Get(urlData).Then(response =>
     {
-        string urlData = $"{url}/ranking/playerDatas.json?auth={secret}";
+        JSONNode jsonNode = JSONNode.Parse(response.Text);
+        ranking = new Ranking();
+        ranking.playerDatas = new List<PlayerData>();
 
-        RestClient.Get(urlData).Then(response =>
+        for (int i = 0; i < jsonNode.Count; i++)
         {
-            JSONNode jsonNode = JSONNode.Parse(response.Text);
-            ranking = new Ranking();
-            ranking.playerDatas = new List<PlayerData>();
+            string playerName = jsonNode[i]["playerName"];
+            int playerScore = jsonNode[i]["playerScore"].AsInt;
+            int rankNumber = jsonNode[i]["rankNumber"].AsInt;
 
-            for (int i = 0; i < jsonNode.Count; i++)
+            // ตรวจสอบและกำหนดค่าเริ่มต้นให้องค์ประกอบใน PlayerData
+            ranking.playerDatas.Add(new PlayerData(
+                rankNumber,
+                playerName ?? string.Empty,
+                playerScore,
+                null)); // คุณอาจอยากใช้รูปภาพเริ่มต้นถ้ามี
+        }
+
+        PlayerData currentData = ranking.playerDatas.FirstOrDefault(
+            data => data.playerName == currentPlayerData.playerName);
+
+        if (currentData.playerName != null)
+        {
+            if (Score.ScoreCount > currentData.playerScore)
             {
-                ranking.playerDatas.Add(new PlayerData(
-                    jsonNode[i]["rankNumber"],
-                    jsonNode[i]["playerName"],
-                    jsonNode[i]["playerScore"],
-                    null));
-            }
-
-            // ค้นหาผู้เล่นในฐานข้อมูล Firebase
-            PlayerData currentData = ranking.playerDatas.FirstOrDefault(
-                data => data.playerName == currentPlayerData.playerName);
-
-            if (currentData.playerName != null)
-            {
-                // ถ้าคะแนนใหม่มากกว่าคะแนนเดิม
-                if (Score.ScoreCount > currentData.playerScore)
-                {
-                    currentData.playerScore = Score.ScoreCount; // อัปเดตคะแนน
-                    int index = ranking.playerDatas.IndexOf(currentData);
-                    ranking.playerDatas[index] = currentData; // เปลี่ยนคะแนนใน list
-                    Debug.Log("Updated score for player: " + currentData.playerName);
-                }
-                else
-                {
-                    Debug.Log("New score is not higher, no update needed.");
-                }
+                currentData.playerScore = Score.ScoreCount;
+                int index = ranking.playerDatas.IndexOf(currentData);
+                ranking.playerDatas[index] = currentData;
+                Debug.Log("Updated score for player: " + currentData.playerName);
             }
             else
             {
-                // ถ้าผู้เล่นไม่มีใน Firebase ให้เพิ่มข้อมูลใหม่
-                currentPlayerData.playerScore = Score.ScoreCount;
-                ranking.playerDatas.Add(currentPlayerData);
-                Debug.Log("Added new player: " + currentPlayerData.playerName);
+                Debug.Log("New score is not higher, no update needed.");
             }
+        }
+        else
+        {
+            currentPlayerData.playerScore = Score.ScoreCount;
+            ranking.playerDatas.Add(currentPlayerData);
+            Debug.Log("Added new player: " + currentPlayerData.playerName);
+        }
 
-            // อัปเดตข้อมูลกลับไปยัง Firebase
-            string urlPlayerData = $"{url}/ranking/.json?auth={secret}";
-            RestClient.Put<Ranking>(urlPlayerData, ranking).Then(response =>
-            {
-                Debug.Log("Upload data complete.");
-                rankUIManager.playerDatas = ranking.playerDatas;
-                rankUIManager.ReloadRankData();
-                FindYourDataInRanking(); // อัปเดต UI
-            }).Catch(error =>
-            {
-                Debug.LogError("Failed to upload data: " + error);
-            });
+        string urlPlayerData = $"{url}/ranking/.json?auth={secret}";
+        RestClient.Put<Ranking>(urlPlayerData, ranking).Then(putResponse =>
+        {
+            Debug.Log("Upload data complete.");
+            rankUIManager.playerDatas = ranking.playerDatas;
+            rankUIManager.ReloadRankData();
+            FindYourDataInRanking();
         }).Catch(error =>
         {
-            Debug.LogError("Failed to fetch data: " + error);
+            Debug.LogError("Failed to upload data: " + error);
         });
-    }
+    }).Catch(error =>
+    {
+        Debug.LogError("Failed to fetch data: " + error);
+    });
+}
 }

@@ -32,4 +32,7 @@ public class GameManager : MonoBehaviour
         currentCoins = 0; // รีเซ็ตเฉพาะเหรียญในซีน
         Debug.Log("Current coins reset to 0");
     }
+    
+    
+    
 }

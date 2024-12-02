@@ -11,7 +11,8 @@ public class Score : MonoBehaviour
     public int ScoreRate = 1;          // อัตราการเพิ่มคะแนน
     public bool isScore = true;
     public GameObject ScoreEnd;
-    public FirebaseRankingManager firebaseManager; // ลิงก์ไปยัง FirebaseRankingManager
+    public FirebaseRankingManager firebaseManager;
+    public OtherSceneManager otherSceneManager;// ลิงก์ไปยัง FirebaseRankingManager
     
     public string playerName = "BOB"; // ชื่อผู้เล่น (ค่าเริ่มต้นคือ BOB)
 
@@ -34,11 +35,31 @@ public class Score : MonoBehaviour
 
     public void StopCount()
     {
-        isScore = false;
+        isScore = false; // หยุดการนับคะแนน
 
-        // ส่งข้อมูลคะแนนไปยัง Firebase พร้อมกับชื่อผู้เล่น
-        firebaseManager.currentPlayerData.playerName = playerName; // กำหนดชื่อผู้เล่น
-        firebaseManager.currentPlayerData.playerScore = ScoreCount; // กำหนดคะแนน
-        firebaseManager.UpdateScoreIfHigher();  // อัปเดตคะแนนเมื่อหยุดการนับ
+        // ตรวจสอบว่า FirebaseRankingManager พร้อมใช้งานหรือไม่
+        if (FirebaseRankingManager.Instance != null)
+        {
+            // ตั้งค่าชื่อผู้เล่นและคะแนนปัจจุบัน
+            FirebaseRankingManager.Instance.currentPlayerData.playerName = playerName;
+            FirebaseRankingManager.Instance.currentPlayerData.playerScore = ScoreCount;
+
+            // อัปเดตคะแนนไปยัง Firebase
+            FirebaseRankingManager.Instance.UpdateScoreIfHigher();
+        }
+        else
+        {
+            Debug.LogWarning("FirebaseRankingManager instance is not found.");
+        }
+
+        // ส่งชื่อผู้เล่นและคะแนนไปที่ OtherSceneManager
+        if (otherSceneManager != null)
+        {
+            otherSceneManager.ReceiveScore(ScoreCount, playerName);
+        }
+        else
+        {
+            Debug.LogWarning("OtherSceneManager instance is not found.");
+        }
     }
 }

@@ -9,7 +9,15 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        // แสดงจำนวนเหรียญรวมจาก GameManager
+        if (coinText == null)
+        {
+            Debug.LogError("coinText is not assigned!");
+        }
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager.Instance is not assigned!");
+        }
+
         UpdateCoinText();
     }
 

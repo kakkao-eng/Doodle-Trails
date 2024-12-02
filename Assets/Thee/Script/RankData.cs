@@ -15,10 +15,10 @@ public struct PlayerData
 
     public PlayerData(int rankNumber, string playerName, int playerScore, Sprite profileSprite)
     {
-        this.playerName = playerName;
+        this.playerName = playerName ?? string.Empty; // กำหนดค่าเริ่มต้นเป็น String ว่าง
         this.rankNumber = rankNumber;
         this.playerScore = playerScore;
-        this.profileSprite = profileSprite;
+        this.profileSprite = profileSprite; // ควรตรวจสอบ null ด้านนอกกรณีใช้จริง
     }
 }
 
@@ -33,10 +33,24 @@ public class RankData : MonoBehaviour
 
     public void UpdateData()
     {
-        profileImg.sprite = playerData.profileSprite;
-        rankText.text = playerData.rankNumber.ToString();
-        playerNameText.text = playerData.playerName;
-        scoreText.text = playerData.playerScore.ToString("0");
+        if (profileImg != null && playerData.profileSprite != null)
+        {
+            profileImg.sprite = playerData.profileSprite;
+        }
 
+        if (rankText != null)
+        {
+            rankText.text = playerData.rankNumber.ToString();
+        }
+
+        if (playerNameText != null)
+        {
+            playerNameText.text = playerData.playerName;
+        }
+
+        if (scoreText != null)
+        {
+            scoreText.text = playerData.playerScore.ToString("0");
+        }
     }
 }
