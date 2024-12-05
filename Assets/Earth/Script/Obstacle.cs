@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -44,7 +45,9 @@ public class Obstacle : MonoBehaviour
         if (other.CompareTag("obstacle"))
         {
             Debug.Log("Player hit the obstacle!");
+            #if UNITY_IOS || UNITY_ANDROID
             Handheld.Vibrate();
+            #endif
 
             // ส่งข้อความดีบัคเพื่อแจ้งว่าได้สั่นแล้ว
             Debug.Log("Vibration triggered");
